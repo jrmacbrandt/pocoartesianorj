@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const TOTAL_FRAMES = 136;
-const FRAME_RATE = 24; // Lower frames per second for smoother appearance and performance
+const TOTAL_FRAMES = 68;
+const FRAME_RATE = 20;
 
 export const WaterAnimation: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -22,7 +22,7 @@ export const WaterAnimation: React.FC = () => {
                     observer.disconnect();
                 }
             },
-            { rootMargin: '200px' } // Start loading slightly before it enters the viewport
+            { rootMargin: '300px' }
         );
 
         if (containerRef.current) {
@@ -35,18 +35,16 @@ export const WaterAnimation: React.FC = () => {
     useEffect(() => {
         if (!isVisible) return;
 
-        // Preload images
         const loadImages = async () => {
             const loadedImages: HTMLImageElement[] = [];
             let count = 0;
 
-            // Prioritize first 20 frames for faster initial render
-            for (let i = 1; i <= TOTAL_FRAMES; i++) {
+            // Load every 2nd frame from the original 136 frames
+            for (let i = 1; i <= 136; i += 2) {
                 const img = new Image();
                 const frameNumber = i.toString().padStart(3, '0');
 
-                // Use fetchpriority hint for initial frames
-                if (i <= 20) {
+                if (count <= 10) {
                     (img as any).fetchPriority = 'high';
                 }
 
@@ -55,8 +53,7 @@ export const WaterAnimation: React.FC = () => {
                 img.onload = () => {
                     count++;
                     setImagesLoaded(count);
-                    // Start animation as soon as first 20 frames are loaded for perceived speed
-                    if (count === 20 && frameRef.current === 0) {
+                    if (count === 15 && frameRef.current === 0) {
                         startAnimation();
                     }
                 };

@@ -2,29 +2,30 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ArrowRight, Ban, FileText, Droplet, MoveRight, MessageSquare } from 'lucide-react';
-import { motion, useScroll, useTransform, useSpring, animate, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, animate, useInView, useMotionValue } from 'framer-motion';
 import { Stat, NewsItem, Testimonial } from '../types';
 import { stats, testimonials, faqData } from '../data/mock';
 import { ParallaxWrapper, FadeInWhenVisible } from '../components/layout/ParallaxWrapper';
 import { WaterAnimation } from '../components/layout/WaterAnimation';
 
+
 const Counter: React.FC<{ value: number; duration: number }> = ({ value, duration }) => {
-    const [count, setCount] = useState(0);
     const nodeRef = useRef(null);
-    const isInView = useInView(nodeRef, { once: true, margin: "-50px" });
+    const isInView = useInView(nodeRef, { once: true, margin: "-100px" });
+    const countValue = useMotionValue(0);
+    const rounded = useTransform(countValue, (latest) => Math.floor(latest));
 
     useEffect(() => {
         if (isInView) {
-            const controls = animate(0, value, {
+            const controls = animate(countValue, value, {
                 duration: duration,
-                onUpdate: (latest) => setCount(Math.floor(latest)),
                 ease: "easeOut",
             });
             return () => controls.stop();
         }
     }, [value, duration, isInView]);
 
-    return <span ref={nodeRef}>{count}</span>;
+    return <motion.span ref={nodeRef}>{rounded}</motion.span>;
 };
 
 export const HomePage: React.FC = () => {

@@ -16,13 +16,13 @@ export default defineConfig(({ mode }) => {
       ViteImageOptimizer({
         test: /\.(jpe?g|png|gif|tiff|webp|svg|avif)$/i,
         webp: {
-          quality: 80,
+          quality: 75,
         },
         jpg: {
-          quality: 80,
+          quality: 75,
         },
         png: {
-          quality: 80,
+          quality: 75,
         },
       }),
     ],

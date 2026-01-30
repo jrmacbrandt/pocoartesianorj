@@ -30,7 +30,7 @@ async function optimizeImages(directory) {
                 console.log(`Converting ${file} to WebP...`);
                 try {
                     await sharp(filePath)
-                        .webp({ quality: 80 })
+                        .webp({ quality: 75 })
                         .toFile(webpPath);
                     console.log(`✓ Created ${path.basename(webpPath)}`);
                 } catch (err) {
