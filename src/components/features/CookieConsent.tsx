@@ -46,8 +46,9 @@ export const CookieConsent: React.FC = () => {
                             <button
                                 onClick={() => setIsVisible(false)}
                                 className="text-white/30 hover:text-white transition-colors"
+                                aria-label="Fechar aviso de cookies"
                             >
-                                <X className="w-4 h-4" />
+                                <X className="w-4 h-4" aria-hidden="true" />
                             </button>
                         </div>
 
