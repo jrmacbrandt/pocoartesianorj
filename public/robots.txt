@@ -1,0 +1,11 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://pocoartesianorj.com.br/sitemap.xml
+
+# Prevent indexing of temporary/system files if any
+Disallow: /dist/
+Disallow: /node_modules/
+Disallow: /.temp_ag_kit/
