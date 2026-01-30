@@ -132,9 +132,9 @@ export const HomePage: React.FC = () => {
                                 {stats.map((s, i) => (
                                     <FadeInWhenVisible key={i} delay={i * 0.1}>
                                         <div className="group cursor-default">
-                                            <h3 className="text-3xl md:text-5xl font-black text-white mb-2 group-hover:text-cyan-400 transition-colors font-mono tracking-tighter">
+                                            <h2 className="text-3xl md:text-5xl font-black text-white mb-2 group-hover:text-cyan-400 transition-colors font-mono tracking-tighter">
                                                 <Counter value={parseInt(s.value)} duration={i === 0 ? 2 : 3} /><span className="text-cyan-500 text-xl align-top">+</span>
-                                            </h3>
+                                            </h2>
                                             <p className="text-[15px] font-mono uppercase tracking-[0.2em] text-gray-500 border-t border-gray-800 pt-4 mt-4 group-hover:border-cyan-500/50 transition-colors">
                                                 {s.label}
                                             </p>
@@ -182,7 +182,7 @@ export const HomePage: React.FC = () => {
                                                 <item.icon className="w-8 h-8 text-gray-600 group-hover:text-cyan-400 transition-colors" />
                                                 <span className="font-mono text-[10px] text-gray-700 group-hover:text-cyan-500">0{idx + 1}</span>
                                             </div>
-                                            <h3 className="text-xl font-bold mb-3">{item.title}</h3>
+                                            <h4 className="text-xl font-bold mb-3">{item.title}</h4>
                                             <p className="text-gray-400 text-base leading-relaxed">{item.desc}</p>
                                         </div>
                                     </FadeInWhenVisible>

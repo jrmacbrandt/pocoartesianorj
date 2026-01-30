@@ -46,12 +46,13 @@ export const SavingsCalculator: React.FC = () => {
                         <div className="absolute bottom-0 right-0 w-2 h-2 bg-white/20 group-hover:bg-cyan-500 transition-colors"></div>
 
                         <div className="flex justify-between items-end mb-8">
-                            <label className="text-gray-400 font-mono text-[10px] uppercase tracking-widest">Sua Conta Mensal (Atual)</label>
+                            <label htmlFor="bill-range" className="text-gray-400 font-mono text-[10px] uppercase tracking-widest">Sua Conta Mensal (Atual)</label>
                             <span className="text-3xl font-black text-cyan-400 font-mono">R$ {bill}</span>
                         </div>
 
                         <div className="relative h-12 mb-8">
                             <input
+                                id="bill-range"
                                 type="range"
                                 min="100"
                                 max="10000"
@@ -59,6 +60,9 @@ export const SavingsCalculator: React.FC = () => {
                                 value={bill}
                                 onChange={(e) => setBill(parseInt(e.target.value))}
                                 className="w-full h-1 bg-gray-800 appearance-none cursor-pointer accent-cyan-500 z-10 relative rounded-none hover:bg-gray-700 transition-colors"
+                                aria-valuemin={100}
+                                aria-valuemax={10000}
+                                aria-valuenow={bill}
                             />
                             {/* Ticks */}
                             <div className="w-full flex justify-between mt-4 text-[10px] font-mono text-gray-600 uppercase">

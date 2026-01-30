@@ -34,7 +34,7 @@ export const Footer: React.FC = () => {
 
                     {/* Col 2: Quick Links (Span 3) */}
                     <div className="md:col-span-3">
-                        <h4 className="text-cyan-400 font-mono text-xs uppercase tracking-[0.2em] mb-6">Navegação</h4>
+                        <h3 className="text-cyan-400 font-mono text-xs uppercase tracking-[0.2em] mb-6">Navegação</h3>
                         <ul className="space-y-4">
                             {[
                                 { name: 'Início', path: '/' },
@@ -58,7 +58,7 @@ export const Footer: React.FC = () => {
 
                     {/* Col 3: Áreas Atendidas (Span 3) - NEW SILO LINKS */}
                     <div className="md:col-span-3">
-                        <h4 className="text-cyan-400 font-mono text-xs uppercase tracking-[0.2em] mb-6">Áreas Atendidas</h4>
+                        <h3 className="text-cyan-400 font-mono text-xs uppercase tracking-[0.2em] mb-6">Áreas Atendidas</h3>
                         <ul className="space-y-2">
                             {CITIES.slice(0, 8).map((city) => (
                                 <li key={city.id}>
@@ -76,7 +76,7 @@ export const Footer: React.FC = () => {
 
                     {/* Col 4: Contact (Span 3) */}
                     <div className="md:col-span-3">
-                        <h4 className="text-cyan-400 font-mono text-xs uppercase tracking-[0.2em] mb-6">Contato Técnico</h4>
+                        <h3 className="text-cyan-400 font-mono text-xs uppercase tracking-[0.2em] mb-6">Contato Técnico</h3>
                         <div className="space-y-6">
                             <div className="flex items-start gap-4 p-4 border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-colors group cursor-pointer">
                                 <div>

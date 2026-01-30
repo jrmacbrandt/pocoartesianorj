@@ -99,18 +99,21 @@ export const VirtualEngineer: React.FC = () => {
                             <div className="relative group">
                                 <input
                                     type="text"
+                                    id="ai-query"
                                     value={query}
                                     onChange={(e) => setQuery(e.target.value)}
                                     onKeyDown={(e) => e.key === 'Enter' && askAI()}
                                     placeholder="> INSERIR COMANDO OU PERGUNTA..."
                                     className="w-full bg-black border border-white/20 p-6 text-cyan-400 placeholder-cyan-900 focus:outline-none focus:border-cyan-500 transition-colors font-mono"
+                                    aria-label="Perguntar ao Engenheiro Virtual"
                                 />
                                 <button
                                     onClick={askAI}
                                     disabled={loading || !query.trim()}
                                     className="absolute right-4 top-1/2 -translate-y-1/2 text-cyan-500 hover:text-white transition-colors disabled:opacity-30"
+                                    aria-label="Enviar pergunta"
                                 >
-                                    {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : <Send className="w-6 h-6" />}
+                                    {loading ? <Loader2 className="w-6 h-6 animate-spin" aria-hidden="true" /> : <Send className="w-6 h-6" aria-hidden="true" />}
                                 </button>
                             </div>
 

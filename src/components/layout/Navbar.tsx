@@ -109,28 +109,29 @@ export const Navbar: React.FC = () => {
                             <button
                                 onClick={() => setIsSearchOpen(!isSearchOpen)}
                                 className="text-white/50 dark:text-white/50 light:text-slate-400 hover:text-cyan-400 transition-colors"
-                                aria-label="Pesquisar"
+                                aria-label={isSearchOpen ? "Fechar busca" : "Abrir busca"}
                             >
-                                <Search className="w-4 h-4" />
+                                <Search className="w-4 h-4" aria-hidden="true" />
                             </button>
                         </div>
 
-                        {/* Font Size Controls */}
                         <div className="flex items-center gap-2">
                             <button
                                 onClick={decreaseFontSize}
                                 className="text-white/50 dark:text-white/50 light:text-slate-400 hover:text-cyan-400 transition-colors"
+                                aria-label="Diminuir tamanho da fonte"
                                 title="Diminuir Fonte"
                             >
-                                <ZoomOut className="w-4 h-4" />
+                                <ZoomOut className="w-4 h-4" aria-hidden="true" />
                             </button>
-                            <span className="text-[9px] font-mono text-cyan-400 min-w-[28px] text-center">{fontSize}%</span>
+                            <span className="text-[9px] font-mono text-cyan-400 min-w-[28px] text-center" aria-live="polite">{fontSize}%</span>
                             <button
                                 onClick={increaseFontSize}
                                 className="text-white/50 dark:text-white/50 light:text-slate-400 hover:text-cyan-400 transition-colors"
+                                aria-label="Aumentar tamanho da fonte"
                                 title="Aumentar Fonte"
                             >
-                                <ZoomIn className="w-4 h-4" />
+                                <ZoomIn className="w-4 h-4" aria-hidden="true" />
                             </button>
                         </div>
 
@@ -153,8 +154,13 @@ export const Navbar: React.FC = () => {
                 </div>
 
                 {/* MOBILE TOGGLE */}
-                <button className="md:hidden text-white" onClick={() => setIsOpen(!isOpen)}>
-                    {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                <button 
+                    className="md:hidden text-white" 
+                    onClick={() => setIsOpen(!isOpen)}
+                    aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
+                    aria-expanded={isOpen}
+                >
+                    {isOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
                 </button>
             </div>
 
