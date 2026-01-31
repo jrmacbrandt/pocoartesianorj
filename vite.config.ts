@@ -33,6 +33,18 @@ export default defineConfig(({ mode }) => {
       alias: {
         '@': path.resolve(__dirname, '.'),
       }
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vendor-react': ['react', 'react-dom', 'react-router-dom', 'react-helmet-async'],
+            'vendor-framer': ['framer-motion'],
+            'vendor-icons': ['lucide-react'],
+          }
+        }
+      },
+      chunkSizeWarningLimit: 1000,
     }
   };
 });

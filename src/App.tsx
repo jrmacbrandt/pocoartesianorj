@@ -10,6 +10,7 @@ import { SEOSchemas } from './components/common/SEOSchemas';
 import { LoadingHUD } from './components/common/LoadingHUD';
 import { LazySection } from './components/common/LazySection';
 import { LazyMotion, domMax } from 'framer-motion';
+import { HomePage } from './pages/HomePage';
 
 // Lazy load heavy components
 const SavingsCalculator = lazy(() => import('./components/features/SavingsCalculator').then(m => ({ default: m.SavingsCalculator })));
@@ -18,7 +19,6 @@ const VirtualEngineer = lazy(() => import('./components/features/VirtualEngineer
 
 
 // Lazy load pages for route-based code splitting
-const HomePage = lazy(() => import('./pages/HomePage').then(module => ({ default: module.HomePage })));
 const ContactPage = lazy(() => import('./pages/ContactPage').then(module => ({ default: module.ContactPage })));
 const PillarPage = lazy(() => import('./pages/PillarPage').then(module => ({ default: module.PillarPage })));
 const CityPage = lazy(() => import('./pages/CityPage').then(module => ({ default: module.CityPage })));

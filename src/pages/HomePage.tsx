@@ -1,32 +1,16 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, Suspense, lazy } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowRight, Ban, FileText, Droplet, MoveRight, MessageSquare } from 'lucide-react';
-import { motion, useScroll, useTransform, useSpring, animate, useInView, useMotionValue } from 'framer-motion';
-import { Stat, NewsItem, Testimonial } from '../types';
-import { stats, testimonials, faqData } from '../data/mock';
+import { ArrowRight, Ban, FileText, Droplet, MoveRight } from 'lucide-react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { stats, faqData } from '../data/mock';
 import { ParallaxWrapper, FadeInWhenVisible } from '../components/layout/ParallaxWrapper';
 import { WaterAnimation } from '../components/layout/WaterAnimation';
+import { LazySection } from '../components/common/LazySection';
 
-
-const Counter: React.FC<{ value: number; duration: number }> = ({ value, duration }) => {
-    const nodeRef = useRef(null);
-    const isInView = useInView(nodeRef, { once: true, margin: "-100px" });
-    const countValue = useMotionValue(0);
-    const rounded = useTransform(countValue, (latest) => Math.floor(latest));
-
-    useEffect(() => {
-        if (isInView) {
-            const controls = animate(countValue, value, {
-                duration: duration,
-                ease: "easeOut",
-            });
-            return () => controls.stop();
-        }
-    }, [value, duration, isInView]);
-
-    return <motion.span ref={nodeRef}>{rounded}</motion.span>;
-};
+// Lazy load sections below the fold
+const FAQSection = lazy(() => import('../components/layout/FAQSection').then(m => ({ default: m.FAQSection })));
+const ReviewSection = lazy(() => import('../components/layout/ReviewSection').then(m => ({ default: m.ReviewSection })));
 
 export const HomePage: React.FC = () => {
     const heroRef = useRef(null);
@@ -40,7 +24,6 @@ export const HomePage: React.FC = () => {
     const scale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
 
     const springBgY = useSpring(bgY, { stiffness: 100, damping: 30 });
-    const [activeTestimonial, setActiveTestimonial] = useState(0);
 
     const faqSchema = {
         "@context": "https://schema.org",
@@ -254,84 +237,17 @@ export const HomePage: React.FC = () => {
                     </div>
                 </section>
 
-                {/* FAQ SECTION - H4 Questions */}
-                <section className="py-24 bg-slate-900 border-t border-white/5">
-                    <div className="container mx-auto px-4 md:px-6">
-                        <FadeInWhenVisible>
-                            <h2 className="text-2xl font-bold text-white mb-16 font-mono tracking-tight uppercase border-l-4 border-cyan-500 pl-6">FAQ - Perguntas Frequentes & Regulamentação</h2>
-                        </FadeInWhenVisible>
-                        <div className="grid md:grid-cols-2 gap-x-12 gap-y-16">
-                            {faqData.map((item, i) => (
-                                <FadeInWhenVisible key={i} delay={i * 0.1}>
-                                    <div className="group">
-                                        <div className="flex items-center gap-4 mb-4">
-                                            <span className="text-cyan-500 font-mono text-xs">0{i + 1} //</span>
-                                            <h4 className="text-lg font-bold text-white uppercase tracking-tight group-hover:text-cyan-400 transition-colors leading-[1.2]">
-                                                {item.q}
-                                            </h4>
-                                        </div>
-                                        <p className="text-gray-500 text-sm leading-relaxed border-l border-white/10 pl-10 ml-2">
-                                            {item.a}
-                                        </p>
-                                    </div>
-                                </FadeInWhenVisible>
-                            ))}
-                        </div>
-                    </div>
-                </section>
+                <LazySection>
+                    <Suspense fallback={<div className="h-[400px] bg-slate-900 animate-pulse" />}>
+                        <FAQSection />
+                    </Suspense>
+                </LazySection>
 
-
-                {/* REVIEWS STRIP */}
-                <section className="py-24 bg-cyan-900/10 border-t border-cyan-900/20">
-                    <div className="container mx-auto px-4 md:px-6">
-                        <div className="grid md:grid-cols-2 gap-16 items-center">
-                            <FadeInWhenVisible>
-                                <div>
-                                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-cyan-900/20 border border-cyan-500/20 text-cyan-500 font-mono text-[10px] uppercase tracking-widest mb-6">
-                                        <MessageSquare className="w-3 h-3" /> Depoimentos
-                                    </div>
-                                    <h2 className="text-2xl md:text-3xl font-black text-white leading-none tracking-tighter mb-8">
-                                        RESULTADO <br />
-                                        <span className="text-cyan-500">COMPROVADO.</span>
-                                    </h2>
-                                    <div className="flex gap-2 mb-8">
-                                        {testimonials.map((_, i) => (
-                                            <button
-                                                key={i}
-                                                onClick={() => setActiveTestimonial(i)}
-                                                className={`w-4 h-4 rounded-sm transition-colors duration-300 ${i === activeTestimonial ? 'bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]' : 'bg-red-600/50 hover:bg-red-500'}`}
-                                                aria-label={`Ver depoimento ${i + 1}`}
-                                            />
-                                        ))}
-                                    </div>
-                                    <div className="min-h-[120px]">
-                                        <p className="text-xl text-white italic font-light leading-relaxed">
-                                            "{testimonials[activeTestimonial].quote}"
-                                        </p>
-                                        <div className="mt-6 flex items-center gap-4">
-                                            <div className="w-12 h-[1px] bg-cyan-500/50"></div>
-                                            <div className="text-sm font-mono uppercase text-cyan-400">{testimonials[activeTestimonial].author}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </FadeInWhenVisible>
-                            <FadeInWhenVisible delay={0.2}>
-                                <div className="relative h-64 md:h-96 w-full bg-slate-950 border border-white/5 overflow-hidden group">
-                                    <img
-                                        src="/assets/perfuracao-poco-artesiano.jpeg"
-                                        className="w-full h-full object-cover opacity-50 grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                                        alt="Perfuração técnica de poço artesiano de alta profundidade em Recreio dos Bandeirantes, Rio de Janeiro - Engenharia Hídrica e Autonomia"
-                                        loading="lazy"
-                                    />
-                                    <div className="absolute bottom-0 left-0 p-8 bg-gradient-to-t from-black to-transparent w-full">
-                                        <div className="font-mono text-xs text-cyan-400 mb-1">LOCALIZAÇÃO</div>
-                                        <div className="text-white font-bold">RECREIO DOS BANDEIRANTES, RJ</div>
-                                    </div>
-                                </div>
-                            </FadeInWhenVisible>
-                        </div>
-                    </div>
-                </section>
+                <LazySection>
+                    <Suspense fallback={<div className="h-[400px] bg-cyan-900/10 animate-pulse" />}>
+                        <ReviewSection />
+                    </Suspense>
+                </LazySection>
             </div >
         </div >
     );

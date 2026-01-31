@@ -33,6 +33,10 @@ export const WaterAnimation: React.FC = () => {
         if (!isVisible) return;
 
         const loadImages = async () => {
+            // Delay loading slightly to prioritize LCP and FCP
+            await new Promise(resolve => setTimeout(resolve, 800));
+            if (!isVisible) return;
+
             const loadedImages: HTMLImageElement[] = [];
             let count = 0;
 
@@ -41,9 +45,8 @@ export const WaterAnimation: React.FC = () => {
                 const img = new Image();
                 const frameNumber = i.toString().padStart(3, '0');
 
-                if (count <= 10) {
-                    (img as any).fetchPriority = 'high';
-                }
+                // Set low priority to all frames to avoid blocking LCP
+                (img as any).fetchPriority = 'low';
 
                 img.src = `/assets/agua-frames/ffout${frameNumber}.webp`;
 
