@@ -52,9 +52,23 @@ const App: React.FC = () => {
                   <Route path="/" element={
                     <>
                       <HomePage />
-                      <LazySection><SavingsCalculator /></LazySection>
-                      <LazySection><FeaturedProjects /></LazySection>
-                      <LazySection><VirtualEngineer /></LazySection>
+                      <LazySection>
+                        <Suspense fallback={<div className="h-[400px] bg-slate-900 animate-pulse" />}>
+                          <SavingsCalculator />
+                        </Suspense>
+                      </LazySection>
+
+                      <LazySection>
+                        <Suspense fallback={<div className="h-[400px] bg-slate-900 animate-pulse" />}>
+                          <FeaturedProjects />
+                        </Suspense>
+                      </LazySection>
+
+                      <LazySection>
+                        <Suspense fallback={<div className="h-[400px] bg-slate-900 animate-pulse" />}>
+                          <VirtualEngineer />
+                        </Suspense>
+                      </LazySection>
                     </>
                   } />
 
