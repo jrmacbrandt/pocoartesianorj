@@ -3,14 +3,19 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import { HelmetProvider } from 'react-helmet-async';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
-import { SavingsCalculator } from './components/features/SavingsCalculator';
-import { FeaturedProjects } from './components/features/FeaturedProjects';
-import { VirtualEngineer } from './components/features/VirtualEngineer';
 import { GlobalAutoLazy } from './components/common/GlobalAutoLazy';
 import { WhatsAppButton } from './components/features/WhatsAppButton';
 import { CookieConsent } from './components/features/CookieConsent';
 import { SEOSchemas } from './components/common/SEOSchemas';
 import { LoadingHUD } from './components/common/LoadingHUD';
+import { LazySection } from './components/common/LazySection';
+import { LazyMotion, domMax } from 'framer-motion';
+
+// Lazy load heavy components
+const SavingsCalculator = lazy(() => import('./components/features/SavingsCalculator').then(m => ({ default: m.SavingsCalculator })));
+const FeaturedProjects = lazy(() => import('./components/features/FeaturedProjects').then(m => ({ default: m.FeaturedProjects })));
+const VirtualEngineer = lazy(() => import('./components/features/VirtualEngineer').then(m => ({ default: m.VirtualEngineer })));
+
 
 // Lazy load pages for route-based code splitting
 const HomePage = lazy(() => import('./pages/HomePage').then(module => ({ default: module.HomePage })));
@@ -37,46 +42,48 @@ const App: React.FC = () => {
   return (
     <HelmetProvider>
       <Router>
-        <ScrollToTop />
-        <GlobalAutoLazy />
-        <div className="min-h-screen bg-black font-sans text-gray-100 selection:bg-cyan-500/30 selection:text-cyan-200 flex flex-col">
-          <Navbar />
-          <main className="flex-grow">
-            <Suspense fallback={<LoadingHUD />}>
-              <Routes>
-                {/* LEVEL 1: HUB */}
-                <Route path="/" element={
-                  <>
-                    <HomePage />
-                    <SavingsCalculator />
-                    <FeaturedProjects />
-                    <VirtualEngineer />
-                  </>
-                } />
+        <LazyMotion features={domMax}>
+          <ScrollToTop />
+          <GlobalAutoLazy />
+          <div className="min-h-screen bg-black font-sans text-gray-100 selection:bg-cyan-500/30 selection:text-cyan-200 flex flex-col">
+            <Navbar />
+            <main className="flex-grow">
+              <Suspense fallback={<LoadingHUD />}>
+                <Routes>
+                  {/* LEVEL 1: HUB */}
+                  <Route path="/" element={
+                    <>
+                      <HomePage />
+                      <LazySection><SavingsCalculator /></LazySection>
+                      <LazySection><FeaturedProjects /></LazySection>
+                      <LazySection><VirtualEngineer /></LazySection>
+                    </>
+                  } />
 
-                {/* LEVEL 2: PILLAR PAGES */}
-                <Route path="/:pillarSlug" element={<PillarPage />} />
+                  {/* LEVEL 2: PILLAR PAGES */}
+                  <Route path="/:pillarSlug" element={<PillarPage />} />
 
-                {/* LEVEL 3: LOCAL SPOKES (CITY PAGES) */}
-                <Route path="/:pillarSlug/:citySlug" element={<CityPage />} />
+                  {/* LEVEL 3: LOCAL SPOKES (CITY PAGES) */}
+                  <Route path="/:pillarSlug/:citySlug" element={<CityPage />} />
 
-                {/* AUX PAGES */}
-                <Route path="/contato" element={<ContactPage />} />
-                <Route path="/politica-de-privacidade" element={<PrivacyPage />} />
-                <Route path="/termos-de-uso" element={<TermsPage />} />
-                <Route path="/quem-somos" element={<AboutPage />} />
-                <Route path="/mapa-do-site" element={<SitemapPage />} />
+                  {/* AUX PAGES */}
+                  <Route path="/contato" element={<ContactPage />} />
+                  <Route path="/politica-de-privacidade" element={<PrivacyPage />} />
+                  <Route path="/termos-de-uso" element={<TermsPage />} />
+                  <Route path="/quem-somos" element={<AboutPage />} />
+                  <Route path="/mapa-do-site" element={<SitemapPage />} />
 
-                {/* Fallback */}
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </Suspense>
-          </main>
-          <Footer />
-          <WhatsAppButton />
-          <CookieConsent />
-          <SEOSchemas />
-        </div>
+                  {/* Fallback */}
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </Suspense>
+            </main>
+            <Footer />
+            <WhatsAppButton />
+            <CookieConsent />
+            <SEOSchemas />
+          </div>
+        </LazyMotion>
       </Router>
     </HelmetProvider>
   );

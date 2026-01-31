@@ -17,10 +17,7 @@ export const WaterAnimation: React.FC = () => {
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                    observer.disconnect();
-                }
+                setIsVisible(entry.isIntersecting);
             },
             { rootMargin: '300px' }
         );
@@ -77,20 +74,17 @@ export const WaterAnimation: React.FC = () => {
     };
 
     const animate = (time: number) => {
-        if (!canvasRef.current || imagesRef.current.length < TOTAL_FRAMES) return;
+        if (!canvasRef.current || imagesRef.current.length < TOTAL_FRAMES || !isVisible) return;
 
         const deltaTime = time - lastTimeRef.current;
         const frameInterval = 1000 / FRAME_RATE;
 
         if (deltaTime >= frameInterval) {
             const canvas = canvasRef.current;
-            const ctx = canvas.getContext('2d');
+            const ctx = canvas.getContext('2d', { alpha: false }); // Optimization: set alpha to false for canvas context
             if (ctx) {
                 const nextFrame = (frameRef.current + 1) % TOTAL_FRAMES;
                 const img = imagesRef.current[nextFrame];
-
-                // Clear and draw
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
 
                 // Cover logic
                 const imgAspect = img.width / img.height;
@@ -117,6 +111,15 @@ export const WaterAnimation: React.FC = () => {
 
         requestRef.current = requestAnimationFrame(animate);
     };
+
+    // Re-start animation when visibility changes
+    useEffect(() => {
+        if (isVisible && imagesLoaded >= 15) {
+            startAnimation();
+        } else if (!isVisible && requestRef.current) {
+            cancelAnimationFrame(requestRef.current);
+        }
+    }, [isVisible, imagesLoaded]);
 
     useEffect(() => {
         const handleResize = () => {
