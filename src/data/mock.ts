@@ -1,8 +1,8 @@
 import { Stat, NewsItem, Testimonial } from '../types';
 
 export const stats: Stat[] = [
-    { value: "1100", label: "PROJETOS EXECUTADOS" },
-    { value: "2000", label: "POÇOS LEGALIZADOS" }
+    { value: "500", label: "PROJETOS EXECUTADOS" },
+    { value: "900", label: "POÇOS LEGALIZADOS" }
 ];
 
 export const news: NewsItem[] = [

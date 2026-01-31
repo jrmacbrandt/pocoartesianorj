@@ -134,7 +134,7 @@ export const HomePage: React.FC = () => {
                                     <FadeInWhenVisible key={i} delay={i * 0.1}>
                                         <div className="group cursor-default">
                                             <h2 className="text-3xl md:text-5xl font-black text-white mb-2 group-hover:text-cyan-400 transition-colors font-mono tracking-tighter">
-                                                <Counter value={parseInt(s.value)} duration={i === 0 ? 2 : 3} /><span className="text-cyan-500 text-xl align-top">+</span>
+                                                {s.value}<span className="text-cyan-500 text-xl align-top">+</span>
                                             </h2>
                                             <p className="text-[15px] font-mono uppercase tracking-[0.2em] text-gray-500 border-t border-gray-800 pt-4 mt-4 group-hover:border-cyan-500/50 transition-colors">
                                                 {s.label}
