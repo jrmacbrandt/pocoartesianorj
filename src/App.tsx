@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import { HelmetProvider } from 'react-helmet-async';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
-import { GlobalAutoLazy } from './components/common/GlobalAutoLazy';
 import { WhatsAppButton } from './components/features/WhatsAppButton';
 import { CookieConsent } from './components/features/CookieConsent';
 import { SEOSchemas } from './components/common/SEOSchemas';
@@ -44,7 +43,6 @@ const App: React.FC = () => {
       <Router>
         <LazyMotion features={domMax}>
           <ScrollToTop />
-          <GlobalAutoLazy />
           <div className="min-h-screen bg-black font-sans text-gray-100 selection:bg-cyan-500/30 selection:text-cyan-200 flex flex-col">
             <Navbar />
             <main className="flex-grow">

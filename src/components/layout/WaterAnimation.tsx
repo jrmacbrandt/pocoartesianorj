@@ -141,10 +141,13 @@ export const WaterAnimation: React.FC = () => {
         <div ref={containerRef} className="absolute inset-0 pointer-events-none z-0">
             <canvas
                 ref={canvasRef}
-                className="w-full h-full object-cover opacity-30 mix-blend-screen grayscale"
-                style={{ filter: 'contrast(1.2) brightness(0.8) hue-rotate(180deg)' }}
+                className="w-full h-full object-cover opacity-30 mix-blend-screen grayscale transition-opacity duration-1000"
+                style={{
+                    opacity: imagesLoaded >= 15 ? 0.3 : 0,
+                    filter: imagesLoaded >= 15 ? 'contrast(1.2) brightness(0.8) hue-rotate(180deg)' : 'blur(20px)',
+                    willChange: 'transform, opacity'
+                }}
             />
-
             {/* Loading indicator (optional, hidden) */}
             {isVisible && imagesLoaded < TOTAL_FRAMES && (
                 <div className="absolute bottom-4 right-4 text-cyan-500 font-mono text-[8px] opacity-50">
