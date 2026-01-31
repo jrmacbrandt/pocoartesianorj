@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Cpu, UserCheck, Send, Loader2, ExternalLink, Activity, ArrowRight } from 'lucide-react';
 
@@ -8,6 +8,7 @@ export const VirtualEngineer: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState<string | null>(null);
     const [sources, setSources] = useState<{ title: string, uri: string }[]>([]);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const askAI = async () => {
         if (!query.trim()) return;
@@ -49,6 +50,12 @@ export const VirtualEngineer: React.FC = () => {
             }
 
             setResponse(data.choices[0]?.message?.content || "Resposta processada sem retorno de texto.");
+            setQuery(''); // Clear input after successful response
+
+            // Re-focus input for next question
+            setTimeout(() => {
+                inputRef.current?.focus();
+            }, 100);
 
         } catch (err: any) {
             console.error('[ENGENHEIRO_VIRTUAL] Erro Crítico:', err);
@@ -98,6 +105,7 @@ export const VirtualEngineer: React.FC = () => {
                             {/* Input Area */}
                             <div className="relative group">
                                 <input
+                                    ref={inputRef}
                                     type="text"
                                     id="ai-query"
                                     value={query}
