@@ -55,10 +55,19 @@ export const CityPage: React.FC = () => {
                         </p>
                         <div className="bg-slate-900 border border-white/5 p-6 rounded-lg">
                             <h3 className="text-lg font-mono text-cyan-400 mb-2">DADOS TÉCNICOS LOCAIS</h3>
-                            <ul className="space-y-2 text-sm text-gray-400">
-                                <li>• Aquíferos predominantes na região</li>
-                                <li>• Profundidade média estimada</li>
-                                <li>• Qualidade da água esperada em {city.name}</li>
+                            <ul className="space-y-3 text-sm text-gray-400">
+                                <li>
+                                    <span className="text-white block font-semibold mb-1">Aquíferos predominantes:</span>
+                                    {city.technicalData?.aquifers}
+                                </li>
+                                <li>
+                                    <span className="text-white block font-semibold mb-1">Profundidade média estimada:</span>
+                                    {city.technicalData?.depth}
+                                </li>
+                                <li>
+                                    <span className="text-white block font-semibold mb-1">Qualidade da água esperada em {city.name}:</span>
+                                    {city.technicalData?.quality}
+                                </li>
                             </ul>
                         </div>
                     </div>
